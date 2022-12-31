@@ -21,3 +21,8 @@ app.use(express.json());
 //connecting routes together
 app.use('/api', apiRoutes);
 app.use('/', htmlRoutes);
+
+app.listen(PORT, () => {
+    //debugging
+    console.log(`API server now on port ${PORT}!`);
+});
