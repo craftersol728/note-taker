@@ -1,28 +1,32 @@
-const express = require ('express');
-const app = express ();
+const PORT = process.env.PORT || 3001;
+//creates server on port 3001
+const fs = require('fs');
+const path = require('path');
 
-const fs = require ('fs');
-const routes = require('routes');
+const express = require('express');
+//npm install express install to download express
+const app = express();
+// gets database from the db.json file
+const allNotes = require('./db/db.json');
 
-//require routes code from routes folder
-const apiRoutes = require ('./routes/apiRoutes');
-const htmlRoutes = require ('./routes/htmlRoutes');
-
-// It parses incoming requests with urlencoded payloads and is based on body-parser.
-app.use(express.urlencoded({
-    extended: true
-}));
-
-//makes clear what the root directory is
-app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-
-//connecting routes together
-app.use('/api', apiRoutes);
-app.use('/', htmlRoutes);
-
-app.listen(PORT, () => {
-    //debugging
-    console.log(`API server now on port ${PORT}!`);
+app.use(express.static('public'));
+//The slice() method returns a shallow copy of a portion of an array into a new array object selected from start to end (end not included) where start and end represent the index of items in that array. The original array will not be modified. 
+app.get('/api/notes', (req, res) => {
+    res.json(allNotes.slice(1));
 });
+// __dirname is hte absolute oath of the directory containing the current file
+//index.html for index
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+});
+//notes . html for notes
+app.get('/notes', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/notes.html'));
+});
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
