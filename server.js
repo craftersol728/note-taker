@@ -82,3 +82,11 @@ app.delete('/api/notes/:id', (req, res) => {
 app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}!`);
 });
+
+
+
+
+
+//links used to understand concept
+//https://expressjs.com/en/starter/installing.html
+//https://www.heroku.com/dx
